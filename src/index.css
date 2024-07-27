@@ -14,6 +14,51 @@ body {
   position: relative;
 }
 
+.emotion-happy .bg-overlay::before {
+  background-image: url('../images/happy.png');
+}
+
+.emotion-sad .bg-overlay::before {
+  background-image: url('../images/sad.png');
+}
+
+.emotion-emotional .bg-overlay::before {
+  background-image: url('../images/emotional.png');
+}
+.emotion-tired .bg-overlay::before {
+  background-image: url('../images/tired.png');
+}
+
+.emotion-angry .bg-overlay::before {
+  background-image: url('../images/angry.png');
+}
+
+.emotion-romantic .bg-overlay::before {
+  background-image: url('../images/romantic.png');
+}
+.emotion-horny .bg-overlay::before {
+  background-image: url('../images/horny.png');
+}
+
+.emotion-energetic .bg-overlay::before {
+  background-image: url('../images/energetic.png');
+}
+
+.emotion-chill .bg-overlay::before {
+  background-image: url('../images/chill.png');
+}
+.emotion-cheerful .bg-overlay::before {
+  background-image: url('../images/cheerful.png');
+}
+
+.emotion-thrillfull .bg-overlay::before {
+  background-image: url('../images/thrillfull.png');
+}
+
+.emotion-humorous .bg-overlay::before {
+  background-image: url('../images/humorous.png');
+}
+
 .bg-overlay::before {
   content: "";
   position: absolute;
