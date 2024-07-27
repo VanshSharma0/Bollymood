@@ -15,7 +15,7 @@ export default function Example() {
         </nav>
       </div>
       <div className="flex items-center justify-center p-5">
-        <h1 className="text-center text-4xl">
+        <h1 className="text-center text-4xl text-white">
           Discover top-rated Bollywood movies<br />based on your mood
         </h1>
       </div>
