@@ -22,6 +22,7 @@ body::before {
   z-index: -1; /* Places the pseudo-element behind the content */
 }
 
+
 .relative {
   position: relative;
 }
@@ -82,7 +83,7 @@ body::before {
   background-size: 300%; /* Adjust the size of the background image */
   background-position: center;
   filter: brightness(50%); /* Decrease brightness of the background image */
-  transition: filter 0.3s ease;
+  transition: filter 0s ease;
   z-index: -1; /* Place it behind the button text */
 }
 

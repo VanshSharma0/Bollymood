@@ -1,24 +1,26 @@
 import React from "react";
 
-export default function Example() {
+export default function Navbar() {
   return (
     <div>
-      <div>
+      <div className="bg-gray-900">
         <nav className="bg-gray-800">
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-center">
-              <h1 className="text-white text-2xl font-bold font-exo2 text-3xl">
+              <h1 className="text-white font-bold font-exo2 text-3xl sm:text-3xl">
                 Welcome to Bollymood!
               </h1>
             </div>
           </div>
         </nav>
       </div>
-      <div className="flex items-center justify-center p-5">
-        <h1 className="text-center text-4xl text-white">
+      <div className="flex flex-col items-center justify-center p-5 text-center">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white">
           Discover top-rated Bollywood movies<br />based on your mood
         </h1>
+        <br />
       </div>
+      <h3 className="text-lg sm:text-xl md:text-2xl text-gray-300 text-center ">How are you feeling today >?</h3>
     </div>
   );
 }
