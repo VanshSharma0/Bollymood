@@ -38,8 +38,8 @@ function App() {
           <Route path="/chill" element={<Chill />} />
           <Route path="/cheerful" element={<Cheerful />} />
           <Route path="/thrillfull" element={<Thrillfull />} />
-          <Route path="/humorous" element={<Humorous />} />
-          <Route path="*" element={<Nopage />} />  */}
+          <Route path="/humorous" element={<Humorous />} /> */}
+          <Route path="*" element={<Nopage />} /> 
         </Routes>
       </BrowserRouter>
     </div>

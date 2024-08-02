@@ -1,39 +1,128 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-// Sample data for sad movies
-const sadMovies = [
-    {
-      title: '3 Idiots',
-      trailer: "https://www.youtube.com/embed/e2eaXjb7LQ8?si=p_cOhnx9MC78s7Vq",
-      genre: 'Comedy, Drama'
-    },
-    {
-      title: 'Zindagi Na Milegi Dobara',
-      trailer: 'https://www.youtube.com/embed/FJrpcDgC3zU',
-      rating: '8.1',
-      genre: 'Adventure, Comedy, Drama'
-    },
-    // Add more movies as needed
-  ];
+const TMDB_API_KEY = 'a923470874f8cf448b3278a9ac53580f';
+const YOUTUBE_API_KEY = 'AIzaSyCmz791Z6dJ5A2HBNwRNmj94HiSM7zBc1s';
 
 function Sad() {
+  const [movies, setMovies] = useState([]);
+  const [genres, setGenres] = useState({});
   const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const observer = useRef();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchGenres() {
+      try {
+        const response = await axios.get(
+          `https://api.themoviedb.org/3/genre/movie/list?api_key=${TMDB_API_KEY}`
+        );
+        const genresList = response.data.genres.reduce((acc, genre) => {
+          acc[genre.id] = genre.name;
+          return acc;
+        }, {});
+        setGenres(genresList);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchGenres();
+  }, []);
+
+  useEffect(() => {
+    async function fetchMovies() {
+      try {
+        const response = await axios.get(
+          `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=18&region=IN&with_original_language=hi&page=${page}&append_to_response=videos`
+        );
+        const moviesWithTrailers = await Promise.all(
+          response.data.results.map(async (movie) => {
+            const movieResponse = await axios.get(
+              `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${TMDB_API_KEY}&append_to_response=videos`
+            );
+            let trailers = movieResponse.data.videos.results.filter(
+              (video) => video.type === 'Trailer' && video.site === 'YouTube'
+            );
+            let trailerUrl = trailers.length > 0 ? `https://www.youtube.com/embed/${trailers[0].key}` : null;
+
+            // If trailer URL is not found, search on YouTube
+            if (!trailerUrl) {
+              const youtubeTrailerUrl = await fetchTrailerFromYouTube(movie.title);
+              trailerUrl = youtubeTrailerUrl ? youtubeTrailerUrl : null;
+            }
+            return { ...movie, trailerUrl };
+          })
+        );
+        setMovies((prevMovies) => [...prevMovies, ...moviesWithTrailers]);
+        setHasMore(response.data.page < response.data.total_pages);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchMovies();
+  }, [page]);
+
+  useEffect(() => {
+    if (movies.length > 0) {
+      setCurrentMovieIndex(Math.floor(Math.random() * movies.length));
+    }
+  }, [movies]);
+
+  const fetchTrailerFromYouTube = async (movieTitle) => {
+    try {
+      const response = await axios.get(
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
+          movieTitle + ' trailer'
+        )}&key=${YOUTUBE_API_KEY}`
+      );
+      const trailers = response.data.items;
+      if (trailers.length > 0) {
+        return `https://www.youtube.com/embed/${trailers[0].id.videoId}`;
+      }
+      return null;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
 
   const handlePrev = () => {
-    setCurrentMovieIndex((prevIndex) => (prevIndex === 0 ? sadMovies.length - 1 : prevIndex - 1));
+    setCurrentMovieIndex((prevIndex) =>
+      prevIndex === 0 ? movies.length - 1 : prevIndex - 1
+    );
   };
 
   const handleNext = () => {
-    setCurrentMovieIndex((prevIndex) => (prevIndex === sadMovies.length - 1 ? 0 : prevIndex + 1));
+    setCurrentMovieIndex((prevIndex) =>
+      prevIndex === movies.length - 1 ? 0 : prevIndex + 1
+    );
   };
 
-  const navigate = useNavigate();
+  const lastMovieElementRef = useCallback((node) => {
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && hasMore) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    });
+    if (node) observer.current.observe(node);
+  }, [hasMore]);
+
   const handleClick = (path) => {
-      navigate(path);
+    navigate(path);
+  };
+
+  if (movies.length === 0) {
+    return <div>Loading...</div>;
   }
 
-  const { title, trailer, rating, genre } = sadMovies[currentMovieIndex];
+  const { title, trailerUrl, vote_average, genre_ids } = movies[currentMovieIndex];
+  const genreNames = genre_ids.map((id) => genres[id]).join(', ');
 
   return (
     <div>
@@ -42,7 +131,13 @@ function Sad() {
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-center">
               <h1 className="text-white font-bold font-exo2 text-xl sm:text-3xl">
-                Your mood is Sad <button onClick={() => handleClick("/home")} className="ml-4 border border-purple-500 bg-purple-500 hover:bg-purple-700 text-white py-1 px-2 rounded text-sm sm:text-xl">Change Mood</button>
+                Your mood is Happy{' '}
+                <button
+                  onClick={() => handleClick('/home')}
+                  className="ml-4 border border-purple-500 bg-purple-500 hover:bg-purple-700 text-white py-1 px-2 rounded text-sm sm:text-xl"
+                >
+                  Change Mood
+                </button>
               </h1>
             </div>
           </div>
@@ -52,17 +147,25 @@ function Sad() {
         <h1 className="text-2xl sm:text-4xl mb-4 mt-4 text-center">{title}</h1>
         <div className="bg-gray-800 p-4 sm:p-6 rounded-lg shadow-lg max-w-4xl w-full">
           <div className="w-full h-56 sm:h-80 lg:h-96 mb-4">
-            <iframe
-              className="w-full h-full rounded-lg"
-              src={trailer}
-              title={title}
-              allowFullScreen
-              frameBorder="0"
-            ></iframe>
+            {trailerUrl ? (
+              <iframe
+                className="w-full h-full rounded-lg"
+                src={trailerUrl}
+                title={title}
+                allowFullScreen
+                frameBorder="0"
+              ></iframe>
+            ) : (
+              <p>No trailer available</p>
+            )}
           </div>
           <div className="text-center mb-4">
-            <p className="text-base sm:text-lg"><strong>Rating:</strong> {rating}</p>
-            <p className="text-base sm:text-lg"><strong>Genre:</strong> {genre}</p>
+            <p className="text-base sm:text-lg">
+              <strong>Rating:</strong> {vote_average}
+            </p>
+            <p className="text-base sm:text-lg">
+              <strong>Genres:</strong> {genreNames}
+            </p>
           </div>
           <div className="flex justify-between">
             <button
@@ -79,6 +182,7 @@ function Sad() {
             </button>
           </div>
         </div>
+        <div ref={lastMovieElementRef}></div>
       </div>
     </div>
   );
