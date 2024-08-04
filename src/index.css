@@ -4,6 +4,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap');
 
+
 body {
   font-family: "Exo 2", sans-serif;
   font-optical-sizing: auto;
@@ -17,7 +18,7 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('./images/bg.jpg');
+  /* background-image: url('./images/bg.jpg'); */
   filter: brightness(50%); /* Decreases the brightness */
   z-index: -1; /* Places the pseudo-element behind the content */
 }
@@ -116,4 +117,9 @@ footer p {
 footer a {
   color: #1d4ed8; /* Tailwind's blue-600 color */
   text-decoration: underline;
+}
+
+
+body{
+  background-color: black;
 }
