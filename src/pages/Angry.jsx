@@ -5,7 +5,7 @@ import axios from 'axios';
 const TMDB_API_KEY = 'a923470874f8cf448b3278a9ac53580f';
 const YOUTUBE_API_KEY = 'AIzaSyCmz791Z6dJ5A2HBNwRNmj94HiSM7zBc1s';
 
-function Emotional() {
+function Angry() {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState({});
   const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
@@ -37,7 +37,7 @@ function Emotional() {
     async function fetchMovies() {
       try {
         const response = await axios.get(
-          `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=10402&region=IN&with_original_language=hi&page=${page}&append_to_response=videos`
+          `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=80&region=IN&with_original_language=hi&page=${page}&append_to_response=videos`
         );
         const moviesWithTrailers = await Promise.all(
           response.data.results.map(async (movie) => {
@@ -131,7 +131,7 @@ function Emotional() {
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-center">
               <h1 className="text-white font-bold font-exo2 text-lg sm:text-2xl">
-                You are emotional all the time
+                Why so angry
                 <button
                   onClick={() => handleClick('/home')}
                   className="ml-2 sm:ml-4 border border-purple-500 bg-purple-500 hover:bg-purple-700 text-white py-1 px-2 sm:py-2 sm:px-4 rounded text-xs sm:text-lg"
@@ -188,4 +188,4 @@ function Emotional() {
   );
 }
 
-export default Emotional;
+export default Angry;

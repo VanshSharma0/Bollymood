@@ -37,7 +37,7 @@ function Sad() {
     async function fetchMovies() {
       try {
         const response = await axios.get(
-          `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=18&region=IN&with_original_language=hi&page=${page}&append_to_response=videos`
+          `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=12&region=IN&with_original_language=hi&page=${page}&append_to_response=videos`
         );
         const moviesWithTrailers = await Promise.all(
           response.data.results.map(async (movie) => {
@@ -130,11 +130,11 @@ function Sad() {
         <nav className="bg-gray-800">
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-center">
-              <h1 className="text-white font-bold font-exo2 text-xl sm:text-3xl">
-                Your mood is Happy{' '}
+              <h1 className="text-white font-bold font-exo2 text-lg sm:text-2xl">
+                aww don't Be sad
                 <button
                   onClick={() => handleClick('/home')}
-                  className="ml-4 border border-purple-500 bg-purple-500 hover:bg-purple-700 text-white py-1 px-2 rounded text-sm sm:text-xl"
+                  className="ml-2 sm:ml-4 border border-purple-500 bg-purple-500 hover:bg-purple-700 text-white py-1 px-2 sm:py-2 sm:px-4 rounded text-xs sm:text-lg"
                 >
                   Change Mood
                 </button>
@@ -143,10 +143,10 @@ function Sad() {
           </div>
         </nav>
       </div>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-        <h1 className="text-2xl sm:text-4xl mb-4 mt-4 text-center">{title}</h1>
-        <div className="bg-gray-800 p-4 sm:p-6 rounded-lg shadow-lg max-w-4xl w-full">
-          <div className="w-full h-56 sm:h-80 lg:h-96 mb-4">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white px-4 sm:px-6 lg:px-8">
+        <h1 className="text-xl sm:text-3xl mb-4 mt-4 text-center">{title}</h1>
+        <div className="bg-gray-800 p-2 sm:p-4 rounded-lg shadow-lg max-w-4xl w-full">
+          <div className="w-full h-48 sm:h-64 lg:h-80 mb-4">
             {trailerUrl ? (
               <iframe
                 className="w-full h-full rounded-lg"
@@ -160,23 +160,23 @@ function Sad() {
             )}
           </div>
           <div className="text-center mb-4">
-            <p className="text-base sm:text-lg">
+            <p className="text-sm sm:text-base">
               <strong>Rating:</strong> {vote_average}
             </p>
-            <p className="text-base sm:text-lg">
+            <p className="text-sm sm:text-base">
               <strong>Genres:</strong> {genreNames}
             </p>
           </div>
           <div className="flex justify-between">
             <button
               onClick={handlePrev}
-              className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg"
+              className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-1 px-2 sm:py-2 sm:px-4 rounded-lg text-xs sm:text-base"
             >
               Prev
             </button>
             <button
               onClick={handleNext}
-              className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg"
+              className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-1 px-2 sm:py-2 sm:px-4 rounded-lg text-xs sm:text-base"
             >
               Next
             </button>
