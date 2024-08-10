@@ -20,7 +20,7 @@ export default function Navbar() {
         </h1>
         <br />
       </div>
-      <h3 className="text-lg sm:text-xl md:text-2xl text-gray-300 text-center ">How are you feeling today >?</h3>
+      <h3 className="text-lg sm:text-xl md:text-2xl text-gray-300 text-center ">How are you feeling today ..?</h3>
     </div>
   );
 }

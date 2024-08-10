@@ -131,7 +131,7 @@ function Humorous() {
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-center">
               <h1 className="text-white font-bold font-exo2 text-lg sm:text-2xl">
-                aww don't Be sad
+                Humour is important
                 <button
                   onClick={() => handleClick('/home')}
                   className="ml-2 sm:ml-4 border border-purple-500 bg-purple-500 hover:bg-purple-700 text-white py-1 px-2 sm:py-2 sm:px-4 rounded text-xs sm:text-lg"

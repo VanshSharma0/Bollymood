@@ -122,4 +122,7 @@ footer a {
 
 body{
   background-color: black;
+  /* background-image: url('../public/bg.jpg');
+  background-position: center;
+  background-size: cover; */
 }
