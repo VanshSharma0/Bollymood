@@ -122,7 +122,18 @@ footer a {
 
 body{
   background-color: black;
-  /* background-image: url('../public/bg.jpg');
-  background-position: center;
-  background-size: cover; */
+}
+
+#tsparticles {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  top: 0;
+  left: 0;
+}
+
+.main-content {
+  position: relative;
+  z-index: 1;
 }

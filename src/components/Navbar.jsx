@@ -3,11 +3,11 @@ import React from "react";
 export default function Navbar() {
   return (
     <div>
-      <div className="bg-gray-900">
-        <nav className="bg-gray-800">
+      <div>
+        <nav className="bg-black-600 underline text-white text-4xl">
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-center">
-              <h1 className="text-white font-bold font-exo2 text-3xl sm:text-3xl">
+              <h1 className="text-white font-bold font-exo2 text-4xl sm:text-3xl">
                 Welcome to Bollymood!
               </h1>
             </div>
